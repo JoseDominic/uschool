@@ -105,4 +105,36 @@ router.get('/logout',(req,res) => {
     res.redirect('/users/login');
 })
 
+//attendance capture
+router.post('/attendance', (req,res) => {
+    console.log(req.body);
+    var attendanceArray = req.body.attendanceArray;
+    var attendance,count=0,attentiveness;
+    attendanceArray.forEach(element => {
+        count+= parseInt(element);
+    });
+    attentiveness = (count/attendanceArray.length)*100;
+    if(attentiveness >= 50){
+        attendance = true;
+    }
+    else{
+        attendance = false;
+    }
+    console.log(attentiveness, attendance);
+    var newUser = {
+      $set:{
+        attendance:attendance,
+        attentiveness:attentiveness
+      }
+    }
+    User.updateOne({name:req.body.userName},newUser, (err) => {
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log('attendance updated');
+      }
+    });
+})
+
 module.exports = router

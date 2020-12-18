@@ -5,7 +5,8 @@ const requiredClicks = 10 //total number of times that floating button will appe
 let attendance = new Array(requiredClicks).fill(0) //array holding attendance values
 var index = 0
 
-const presentBtn = document.getElementById("presentBtn")  
+const presentBtn = document.getElementById("presentBtn");
+const leaveBtn = document.querySelector(".leave_meeting");
 var elem = document.getElementById("animate");
 
 presentBtn.addEventListener('click', (event) => {
@@ -15,6 +16,22 @@ presentBtn.addEventListener('click', (event) => {
     }
     console.log(attendance)
     index = index + 1
+})
+
+leaveBtn.addEventListener('click', (event) => {
+  console.log(`Final attendance ${attendance}`);
+  $.ajax({
+    url: "/users/attendance",
+    type: "POST",
+    data: {
+        'attendanceArray': attendance,
+        'userName': userName,
+    },
+    success: function(data){
+        console.log(data);
+    }
+});
+
 })
 
 function getRndInteger(min, max) {
@@ -46,7 +63,7 @@ async function start() {
 if(userRole == 'student'){
   start();
   setTimeout(() => {
-    console.log(`Final attendance ${attendance}`);
+
     // var newUser = {
     //   $set:{
     //     attendance:attendance

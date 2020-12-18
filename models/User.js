@@ -22,8 +22,12 @@ const UserSchema = mongoose.Schema({
         default:Date.now,
     },
     attendance:{
-        type:Array,
-        default:Array(10).fill(1)
+        type:Boolean,
+        default:false
+    },
+    attentiveness:{
+        type:Number,
+        default:0,
     }
 });
 

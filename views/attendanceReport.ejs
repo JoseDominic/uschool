@@ -1,0 +1,19 @@
+<%- include ('partials/teacher_navbar') %>
+<% if (typeof result !='undefined' && typeof result[0]!='undefined') { %>
+    <table>
+        <tr><th >Student Name</th><th >Attentiveness</th><th >Present</th></tr>
+        <% result.forEach(myfunction); %>
+        <%function myfunction(item,index) { %>
+        <tr><td ><%=item.name%></td><td ><%=item.attentiveness%> %</td><td ><%=item.attendance%> </td></tr>
+        <% } %>
+    </table>
+  <% } %>
+
+  <% if (typeof result=='undefined' || typeof result[0]=='undefined') { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        No reports yet!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+<% } %>   

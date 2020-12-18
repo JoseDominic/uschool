@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
-const {v4:uuidv4} = require('uuid')
+const {v4:uuidv4} = require('uuid');
+const User = require('../models/User');
 
 // create a new live class room
 router.get('/live',ensureAuthenticated,(req, res) => {
@@ -42,5 +43,21 @@ router.get('/leave',ensureAuthenticated,(req,res) => {
     }
 })
 
+router.get('/attendance',(req,res) => {
+    let Students = []
+    User.find({role:'student'}, (err,result) => {
+        if(err){
+            console.log(err);
+            result.redirect('/user/login');
+        }
+        else{
+            console.log(result);
+            result.forEach( (student) => {
+                Students.push(student);
+            })
+            res.render('attendanceReport',{result:Students,name:req.user.name});
+        }
+    })
+})
 
 module.exports = router;
