@@ -26,12 +26,20 @@ async function startRecording() {
     var fName = prompt('Enter file name');
     const completeBlob = new Blob(chunks, { type: chunks[0].type });
     //video.src = URL.createObjectURL(completeBlob);
-    var url = URL.createObjectURL(completeBlob);
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    a.href = url;
-    a.download = `${fName}.mp4`;
+    // var url = URL.createObjectURL(completeBlob);
+    // var a = document.createElement("a");
+    // document.body.appendChild(a);
+    // a.style = "display: none";
+    // a.href = url;
+    // a.download = `${fName}.mp4`;
+    var fd = new FormData();
+    fd.append('upl', completeBlob, `${fName}.mp4`);
+
+    fetch('/class/save',
+    {
+        method: 'post',
+        body: fd
+    }); 
     a.click();
     window.URL.revokeObjectURL(url);
   };

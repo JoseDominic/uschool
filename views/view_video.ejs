@@ -1,0 +1,12 @@
+<% if(role=='teacher') { %>
+    <%- include ('partials/teacher_navbar') %>
+<% } %>
+<% if(role=='student') { %>
+    <%- include ('partials/student_navbar') %>
+<% } %>
+<div class="container">
+    <video width="800" controls>
+        <source src="/uploads/<%=filename%>" type="video/mp4">
+        Your browser does not support HTML video.
+    </video>
+</div>

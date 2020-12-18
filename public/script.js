@@ -96,7 +96,7 @@ const muteUnmute = () => {
 }
 
 const playStop = () => {
-  console.log('object')
+  //console.log('object')
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;

@@ -3,6 +3,18 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
 const {v4:uuidv4} = require('uuid');
 const User = require('../models/User');
+const multer = require('multer');
+const fs = require('fs')
+
+// SET STORAGE using multer
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  })
 
 // create a new live class room
 router.get('/live',ensureAuthenticated,(req, res) => {
@@ -43,6 +55,7 @@ router.get('/leave',ensureAuthenticated,(req,res) => {
     }
 })
 
+//render attendance report using float btn data
 router.get('/attendance',(req,res) => {
     let Students = []
     User.find({role:'student'}, (err,result) => {
@@ -58,6 +71,33 @@ router.get('/attendance',(req,res) => {
             res.render('attendanceReport',{result:Students,name:req.user.name});
         }
     })
+})
+
+//save recorded file to server
+var upload = multer({ storage:storage});
+
+var type = upload.single('upl');
+router.post('/save',type,(req,res) => {
+    //console.log(req.body);
+    console.log(req.file);
+    // do stuff with file
+    res.send('Success');
+})
+
+//view recorded classes list
+router.get('/records', ensureAuthenticated,(req,res) => {
+    const Folder = 'public/uploads/';
+    let files = []
+    fs.readdirSync(Folder).forEach(file => {
+        files.push(file);
+    });
+    console.log(files);
+    res.render('recorded_class_list',{result:files,name:req.user.name,role:req.user.role});
+})
+
+//see a recorded video
+router.get('/view/:filename', ensureAuthenticated, (req,res) => {
+    res.render('view_video',{filename:req.params.filename,name:req.user.name,role:req.user.role});
 })
 
 module.exports = router;
