@@ -7,7 +7,8 @@ const userList = document.getElementById('users');
 
 //console.log(username,room);
 
-const socket = io('http://localhost:5000'); //create socket from socket.io.js module imported with script tag in chat.html
+//const socket = io('http://localhost:5000'); //create socket from socket.io.js module imported with script tag in chat.html
+const socket = io('https://5000-bd527f28-7314-4149-8561-8206a4b65ea2.ws-us03.gitpod.io/');
 console.log(socket);
 //update room name and user list
 socket.on('roomUsers',({room,users}) => {
