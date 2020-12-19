@@ -100,4 +100,15 @@ router.get('/view/:filename', ensureAuthenticated, (req,res) => {
     res.render('view_video',{filename:req.params.filename,name:req.user.name,role:req.user.role});
 })
 
+//discussion forum
+router.get('/forum', ensureAuthenticated,(req,res) => {
+    let roomName = 'Doubts here..';
+    res.render('discussion_forum',{layout:false,username:req.user.name,room:roomName,role:req.user.role});
+})
+
+//chat bot
+router.get('/bot',ensureAuthenticated,(req,res) => {
+    res.render('bot',{layout:false,name:req.user.name});
+})
+
 module.exports = router;

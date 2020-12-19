@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Chatbot</title>
+    <link rel="icon" href="/chatbot/bot.png" />
+    <link href="https://bootswatch.com/4/cosmo/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/chatbot/style.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+ 
+        <a class="navbar-brand" href="/dashboard">Uschool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="/class/records">Recorded classes<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="#">Exams<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/class/forum">Go to discussion forum</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/class/bot">Chatbot</a>
+            </li>
+    
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="navbar-brand" href="#" tabindex="-1"><h4>Welcome <%=name%></h4></a>
+            </li>
+            <li class="nav-item ">
+              <a class="btn btn-secondary" href="/users/logout">Logout</a>
+            </li>
+        </ul>
+        </div>
+      
+      </nav>
+	<div id="container" class="container">
+		<div id="chat" class="chat">
+			<div id="messages" class="messages"></div>
+			<input id="input" type="text" placeholder="Say something..." autocomplete="off" autofocus="true" />
+		</div>
+		<img src="/chatbot/bot.png" alt="Robot cartoon" height="500vh">
+	</div>
+</body>
+<script type="text/javascript" src="/chatbot/index.js" ></script>
+<script type="text/javascript" src="/chatbot/constants.js" ></script>
+
+
+</html>

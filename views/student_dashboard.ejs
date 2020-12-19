@@ -1,5 +1,6 @@
 <%- include ('partials/student_navbar') %>
 <div class="container">
+    <h2>Join a live class</h2>
     <form method="POST" action="class/live/join">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Class ID</label>
@@ -7,7 +8,26 @@
           <div id="emailHelp" class="form-text">Enter the id of live class you want to join</div>
         </div>
         <button type="submit" class="btn btn-primary">Join live class</button>
-      </form>
+    </form>
+    
+    <br>
+    <h2>Discussion Forum</h2>
+    <form action="/class/discuss" method="POST">
+      <div class="form-control">
+        <label for="room">Subject</label>
+        <select name="room" id="room">
+          <option value="Computer science">Computer science</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Philosophy">Philosophy</option>
+          <option value="Physics">Physics</option>
+          <option value="English">English</option>
+          <option value="Chemistry">Chemistry</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-secondary">Join Discussion</button>
+    </form>
+ 
+
 </div>
 <%- include ('partials/messages') %>
 
