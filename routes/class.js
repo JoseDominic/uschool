@@ -106,6 +106,10 @@ router.get('/forum', ensureAuthenticated,(req,res) => {
     res.render('discussion_forum',{layout:false,username:req.user.name,room:roomName,role:req.user.role});
 })
 
+router.post('/forum',ensureAuthenticated, (req,res) => {
+    res.render('discussion_forum',{layout:false,username:req.user.name,room:req.body.room,role:req.user.role});
+})
+
 //chat bot
 router.get('/bot',ensureAuthenticated,(req,res) => {
     res.render('bot',{layout:false,name:req.user.name});

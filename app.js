@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const { v4: uuidV4 } = require('uuid')
 
 const app = express();
@@ -36,9 +36,9 @@ app.set('view engine','ejs');
 app.use(express.static('public'))
 
 //Express Bodyparser
-//app.use(express.urlencoded({extended:true}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended:true}));
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
 
 //Express session
 app.use(session({
