@@ -40,7 +40,7 @@ function getRndInteger(min, max) {
 
 async function start() {
     var totalBtnCount = requiredClicks
-    var id = setInterval(frame, 10000); // show floating button every specified time interval
+    var id = setInterval(frame, 3000); // show floating button every specified time interval
     function frame() {
       totalBtnCount= totalBtnCount - 1
       elem.style.display = 'block'
@@ -55,7 +55,7 @@ async function start() {
         //make floating button disappear after specified amount of time
         setTimeout(() => {
           elem.style.display = 'none'
-        }, 6000); 
+        }, 2000); 
       }
     }
 }
