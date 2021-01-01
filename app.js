@@ -67,6 +67,7 @@ app.use((req,res,next) => {
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use('/class',require('./routes/class'));
+app.use('/exam',require('./routes/exam'));
 // app.use('/email',require('./routes/email'));
 
 

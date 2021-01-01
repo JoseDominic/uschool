@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Exam Rooom</title>
+   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+   <style>
+      .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: +4; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+    body{ 
+    text-align: center; 
+    background: #00ECB9; 
+    font-family: sans-serif; 
+    font-weight: 100; 
+    } 
+    canvas {
+      position: absolute;
+    }
+    h1{ 
+      color: #396; 
+      font-weight: 100; 
+      font-size: 40px; 
+      margin: 40px 0px 20px; 
+    } 
+    #clockdiv{ 
+        font-family: sans-serif; 
+        color: #fff; 
+        display: inline-block; 
+        font-weight: 100; 
+        text-align: center; 
+        font-size: 30px; 
+    } 
+    #clockdiv > div{ 
+        padding: 10px; 
+        border-radius: 3px; 
+        background: #00BF96; 
+        display: inline-block; 
+    } 
+    #clockdiv div > span{ 
+        padding: 15px; 
+        border-radius: 3px; 
+        background: #00816A; 
+        display: inline-block; 
+    } 
+    .smalltext{ 
+        padding-top: 5px; 
+        font-size: 16px; 
+    } 
+      .translucent{
+         width:100%;
+         height:100%;
+         background-color:rgba(222, 222, 222, 1);
+         z-index:+2;
+      }
+      #video-grid{
+         display: flex;
+         justify-content: center;
+         flex-wrap: wrap;
+      }
+      video{
+         height: 300px;
+         width: 400px;
+         object-fit: cover;
+         padding: 8px;
+      }
+      .stack{
+         position:absolute;
+      }
+      .size {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.doubt-modal{
+   background-color:#01271f ;
+   height:200px;
+   width:200px;
+   border-radius:100px;
+   margin:auto;
+}
+.doubt-modal:hover,
+.doubt-modal:focus{
+   background-color: #f4f8f7;
+  
+}
+ .doubt-text:hover{
+   color: #01271f;
+}
+.doubt-modal img{
+   padding:20px;
+   width:150px;
+   height: 150px;
+}
+.doubt-modal div{
+   color: rgba(222, 222, 222, 1);
+   padding-left: 10px;
+   margin: auto;
+   border-radius: 5px;
+   height:30px;
+   width:100px;
+   font-weight: 700;
+   font-size: 18px;
+   letter-spacing: 1.5px;
+   text-align: center;
+}
+.doubt-form{
+   margin-top: 30px;
+}
+.doubt-form input{
+   background-color: #f4f8f7;
+   margin-right: 20px;
+   border-style: none;
+   border-radius: 20px;
+   padding: 10px 10px 5px 10px;
+   }
+
+.doubt-form button{
+   background-color: #01271f;
+   color: #f4f8f7;
+   font-size: 16px;
+   font-weight: 600;
+   border-style: none;
+   border-radius:20px;
+   padding:10px;
+}
+   </style>
+   
+</head>
+<body>
+   
+  <div id="root"></div>
+   <div id ="live" class= "live-room">
+      <div id = "translucent"class ="translucent stack">
+         <div class="tracker">
+            <video id="video" width="720" height="560" autoplay muted></video>
+            <canvas id="canvas" width="720" height="560" style="display:none;"></canvas>
+            <div id="status"></div>
+            </div>
+         <div>
+            <button class ="btn btn-primary" id="presentBtn" onclick="rmv_screen();">Enter Exam Room</button>
+         </div>
+         
+      </div>
+        
+          <h1>Exam Timer</h1> 
+          <div id="clockdiv"> 
+            
+            <div> 
+              <span class="hours" id="hour"></span> 
+              <div class="smalltext">Hours</div> 
+            </div> 
+            <div> 
+              <span class="minutes" id="minute"></span> 
+              <div class="smalltext">Minutes</div> 
+            </div> 
+            <div> 
+              <span class="seconds" id="second"></span> 
+              <div class="smalltext">Seconds</div> 
+            </div> 
+          </div> 
+          <p id="demo"></p>
+          <!-- /////////////////////////////////////////////////////////// -->
+          <div id = "doubt-modal" class="doubt-modal">
+            <img src="/que.png" class="doubt-image">
+            <div class="doubt-text">Doubts ?</div>
+          </div>
+          <!-- //////////////////////////////////////////////////////////////// -->
+      </div> 
+      <div id="myModal" class="modal"><div class="modal-content">
+         <span class="close">&times;</span>
+         <p>Are you sure you dont want to continue exam</p>
+         <button id="myBtn">Continue</button> 
+         </div>
+   </div> 
+<script>
+   //////////////////////////////////////////////////////////////////////////////////////
+    (async () => {
+
+        const video = document.getElementById('video')
+        const model = await cocoSsd.load()
+        const canvas = document.getElementById('canvas')
+        const context = canvas.getContext('2d')
+        const status = document.getElementById('status')
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video:{
+                facingMode: 'environment'
+            }
+        })
+    video.srcObject = stream
+
+    setInterval(async () => {
+        context.drawImage(video,0,0,720, 560)
+        const pred = await model.detect(canvas)
+        var res = "No Person Dectected !!"
+        // console.log(pred[0].class.localeCompare("Person"))
+        // console.log(pred[0].class)
+        // console.log(typeof(pred[0].class))
+        if(pred[0].class.localeCompare("person") == 0){
+            res = pred[0].class
+        }
+        // console.log(res)
+        status.innerHTML = `Prediction: ${res}`
+    },100)
+
+    
+    })();
+    ////////////////////////////////////////////////////////////////////////
+</script>
+
+</body>
+
+
+
+<script>
+   ///////////////////////
+   var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+btn.onclick = function(event) {
+    modal.style.display = "none";
+    rmv_screen();
+
+}
+   //////////////////////////
+  // Masking screen////
+   var live = document.getElementById('live');
+   exit_screen = false
+  // alert = '<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display="none";">&times;</span>This is an alert box.</div>'
+document.addEventListener("fullscreenchange",(event)=>{
+      
+      if(exit_screen){
+      mask_element = '<div id = "translucent"class ="translucent stack"><div class="tracker"><video id="video" width="720" height="560" autoplay muted></video><canvas id="canvas" width="720" height="560" style="display:none;"></canvas><div id="status"></div></div><div><button class ="btn btn-primary" id="presentBtn" onclick="rmv_screen();">Full screen mode</button></div></div>';
+      live.insertAdjacentHTML('afterbegin',mask_element);
+      modal.style.display = "block";
+   }
+      if(exit_screen) exit_screen = false;
+      else exit_screen = true;
+});
+
+   function lock (orientation) {
+         // Go into full screen first
+      if (document.documentElement.requestFullscreen) {
+         document.documentElement.requestFullscreen();
+      } else if (document.documentElement.mozRequestFullScreen) {
+         document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
+         document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) {
+         document.documentElement.msRequestFullscreen();
+      }
+
+      // Then lock orientation
+      screen.orientation.lock(orientation);
+      }
+   function rmv_screen(){
+   translucent = document.getElementById('translucent');
+    live.removeChild(translucent);
+    lock('landscape');
+    timer();
+   }
+////////// Timer//////////////////
+var deadline = new Date("dec 19, 2020 21:30:00").getTime(); 
+function timer(){setInterval(function() { 
+  
+var now = new Date().getTime(); 
+var t = deadline - now; 
+//var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+//document.getElementById("day").innerHTML =days ; 
+document.getElementById("hour").innerHTML =hours; 
+document.getElementById("minute").innerHTML = minutes;  
+document.getElementById("second").innerHTML =seconds;  
+if (t < 0) { 
+        clearInterval(x); 
+        document.getElementById("demo").innerHTML = "TIME OVER"; 
+      //  document.getElementById("day").innerHTML ='0'; 
+        document.getElementById("hour").innerHTML ='0'; 
+        document.getElementById("minute").innerHTML ='0' ;  
+        document.getElementById("second").innerHTML = '0'; } 
+}, 1000); }
+
+var toggle=true;
+document.getElementById("doubt-modal").addEventListener('click',e=>{
+   if(toggle){
+      var doubt_text = '<form id="doubt-form"class="doubt-form" action="#"><input type="text" placeholder="Type your doubt here"><button type="submit" >Submit</button></form>'
+   var doubt_el  = document.getElementById('doubt-modal');
+   doubt_el.insertAdjacentHTML('afterend',doubt_text);
+   toggle=false;
+   }
+   else{
+      df= document.getElementById('doubt-form');
+      live.removeChild(df);
+      toggle=true;
+   }
+});
+</script>
+</html>
