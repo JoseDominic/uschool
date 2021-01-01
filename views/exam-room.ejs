@@ -227,18 +227,20 @@
     video.srcObject = stream
 
     setInterval(async () => {
-        context.drawImage(video,0,0,720, 560)
-        const pred = await model.detect(canvas)
-        var res = "No Person Dectected !!"
+        var res = 'person';
+        context.drawImage(video,0,0,720, 560);
+        const pred = await model.detect(canvas);
+        console.log(`prediction array:${pred}`);
+        if (pred.length ==0) {
+           res = 'No person detected';
+        }
+        console.log(res);
         // console.log(pred[0].class.localeCompare("Person"))
         // console.log(pred[0].class)
         // console.log(typeof(pred[0].class))
-        if(pred[0].class.localeCompare("person") == 0){
-            res = pred[0].class
-        }
-        // console.log(res)
+        //console.log(res)
         status.innerHTML = `Prediction: ${res}`
-    },100)
+    },2000)
 
     
     })();
