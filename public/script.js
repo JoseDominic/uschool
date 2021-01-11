@@ -8,7 +8,7 @@ const shareScreenBtn = document.getElementById('shareScreen')
 const myPeer = new Peer(undefined, {
   host: '/',
   path:'peerjs',
-  port: '3000' //use 443 in cloud deployment
+  port: '443' //use 443 in cloud deployment
 })
 
 //let myVideoStream;
