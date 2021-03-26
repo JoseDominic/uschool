@@ -110,7 +110,9 @@ function addVideoStream(video, stream) {
 //fetch fake data from api to check for internet
 const checkOnlineStatus = async () => {
   try {
-    const online = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    // const online = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    const online = await fetch('/pixel.png');
+    console.log(online);
     return online.status >= 200 && online.status < 300; // either true or false
   } catch (err) {
     return false; // definitely offline
