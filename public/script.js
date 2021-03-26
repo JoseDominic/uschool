@@ -1,5 +1,5 @@
-// const socket = io('https://video-sock-server.herokuapp.com/')
-const socket = io('/')
+const socket = io('https://video-sock-server.herokuapp.com/')
+//const socket = io('/')
 console.log(socket);
 const roomIdView = document.getElementById('roomid')
 roomIdView.innerHTML = ROOM_ID
@@ -7,7 +7,7 @@ const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
   host: '/',
-  path:'/peerjs',
+  path:'peerjs',
   port: '443',
 })
 
@@ -192,7 +192,7 @@ const setPlayVideo = () => {
 
 const shareScreen = async () => {
 
-  const socket = io('/')
+  const socket = io('https://video-sock-server.herokuapp.com/')
   const videoGrid = document.getElementById('video-grid')
   const myPeer = new Peer(undefined, {
     path: '/peerjs',
