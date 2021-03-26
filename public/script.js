@@ -16,7 +16,7 @@ const myPeer = new Peer(undefined, {
 //   { url: 'turn:turn:numb.viagenie.ca:3478',username:'webrtc@live.com', credential: 'muazkh' }
 //   ]}
 
-let myVideoStream;
+let myVideoStream, myVideoStream2;
 let peerConnection;
 
 const myVideo = document.createElement('video')
@@ -209,7 +209,7 @@ const shareScreen = async () => {
     video: true,
     audio: true
   }).then(stream => {
-    myVideoStream = stream;
+    myVideoStream2 = stream;
     addVideoStream(myVideo2, stream)
     myPeer.on('call', call => {
       call.answer(stream)
