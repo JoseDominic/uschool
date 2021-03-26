@@ -1,5 +1,6 @@
 const socket = io('https://video-sock-server.herokuapp.com/')
 console.log(socket);
+console.log(Navigator.onLine);
 const roomIdView = document.getElementById('roomid')
 roomIdView.innerHTML = ROOM_ID
 const videoGrid = document.getElementById('video-grid')
@@ -8,8 +9,13 @@ const shareScreenBtn = document.getElementById('shareScreen')
 const myPeer = new Peer(undefined, {
   host: '/',
   path:'peerjs',
-  port: '443' //use 443 in cloud deployment
+  port: '443',
 })
+
+// config: {‘iceServers’: [
+//   { url: ‘stun:[your stun id]:[port]’ },
+//   { url: 'turn:turn:numb.viagenie.ca:3478',username:'webrtc@live.com', credential: 'muazkh' }
+//   ]}
 
 //let myVideoStream;
 let peerConnection;
@@ -115,6 +121,26 @@ shareScreenBtn.addEventListener('click', (event) => {
     })
 })
 
+//internet connectivity monitoring
+//fetch fake data from api to check for internet
+const checkOnlineStatus = async () => {
+  try {
+    const online = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    return online.status >= 200 && online.status < 300; // either true or false
+  } catch (err) {
+    return false; // definitely offline
+  }
+};
+
+setInterval(async () => {
+  const result = await checkOnlineStatus();
+  if(!result){
+    alert('You are offline!!Check your connection');
+  }
+  const statusDisplay = document.getElementById("status");
+  statusDisplay.textContent = result ? "Online" : "OFFline";
+}, 3000); // check net every t seconds
+
 
 const scrollToBottom = () => {
   var d = $('.main__chat_window');
@@ -176,3 +202,72 @@ const setPlayVideo = () => {
   `
   document.querySelector('.main__video_button').innerHTML = html;
 }
+
+//Screen sharing function
+
+const shareScreen = async () => {
+
+  const socket = io('/')
+  const videoGrid = document.getElementById('video-grid')
+  const myPeer = new Peer(undefined, {
+    path: '/peerjs',
+    host: '/',
+    port: '443'
+  })
+  
+  const myVideo2 = document.createElement('video')
+  myVideo2.muted = true;
+  const peers = {}
+  navigator.mediaDevices.getDisplayMedia({
+    video: true,
+    audio: true
+  }).then(stream => {
+    myVideoStream = stream;
+    addVideoStream(myVideo2, stream)
+    myPeer.on('call', call => {
+      call.answer(stream)
+      const video2 = document.createElement('video')
+      call.on('stream', userVideoStream => {
+        addVideoStream(video2, userVideoStream)
+      })
+    })
+
+    socket.on('user-connected', userId => {
+      connectToNewUser(userId, stream)
+    })
+    
+
+  })
+
+socket.on('user-disconnected', userId => {
+  if (peers[userId]) peers[userId].close()
+})
+
+myPeer.on('open', id => {
+  socket.emit('join-room', ROOM_ID, id)
+})
+
+function connectToNewUser(userId, stream) {
+  
+  const call = myPeer.call(userId, stream)
+  const video2 = document.createElement('video')
+  call.on('stream', userVideoStream => {
+    
+  })
+  call.on('close', () => {
+    video2.remove()
+  })
+
+  peers[userId] = call
+}
+
+function addVideoStream(video2, stream) {
+  video2.srcObject = stream
+  video2.addEventListener('loadedmetadata', () => {
+    video2.play()
+  })
+  videoGrid.append(video2)
+}
+
+
+};
