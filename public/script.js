@@ -123,23 +123,23 @@ shareScreenBtn.addEventListener('click', (event) => {
 
 //internet connectivity monitoring
 //fetch fake data from api to check for internet
-const checkOnlineStatus = async () => {
-  try {
-    const online = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-    return online.status >= 200 && online.status < 300; // either true or false
-  } catch (err) {
-    return false; // definitely offline
-  }
-};
+// const checkOnlineStatus = async () => {
+//   try {
+//     const online = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+//     return online.status >= 200 && online.status < 300; // either true or false
+//   } catch (err) {
+//     return false; // definitely offline
+//   }
+// };
 
-setInterval(async () => {
-  const result = await checkOnlineStatus();
-  if(!result){
-    alert('You are offline!!Check your connection');
-  }
-  const statusDisplay = document.getElementById("status");
-  statusDisplay.textContent = result ? "Online" : "OFFline";
-}, 3000); // check net every t seconds
+// setInterval(async () => {
+//   const result = await checkOnlineStatus();
+//   if(!result){
+//     alert('You are offline!!Check your connection');
+//   }
+//   const statusDisplay = document.getElementById("status");
+//   statusDisplay.textContent = result ? "Online" : "OFFline";
+// }, 3000); // check net every t seconds
 
 
 const scrollToBottom = () => {
