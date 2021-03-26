@@ -1,13 +1,13 @@
-const socket = io('https://video-sock-server.herokuapp.com/')
+// const socket = io('https://video-sock-server.herokuapp.com/')
+const socket = io('/')
 console.log(socket);
-console.log(Navigator.onLine);
 const roomIdView = document.getElementById('roomid')
 roomIdView.innerHTML = ROOM_ID
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
   host: '/',
-  path:'peerjs',
+  path:'/peerjs',
   port: '443',
 })
 
