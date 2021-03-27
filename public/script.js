@@ -12,9 +12,11 @@ const myPeer = new Peer(undefined, {
   debug: 3,
   config: {
       'iceServers': [
-          { url: 'stun:stun1.l.google.com:19302' },
+          { iceTransportPolicy:"relay",
+            urls: 'stun:stun1.l.google.com:19302' },
           {
-              url: 'turn:numb.viagenie.ca',
+              iceTransportPolicy:"relay",
+              urls: 'turn:numb.viagenie.ca',
               credential: 'muazkh',
               username: 'webrtc@live.com'
           }
@@ -215,9 +217,10 @@ const shareScreen = async () => {
     debug: 3,
     config: {
         'iceServers': [
-            { url: 'stun:stun1.l.google.com:19302' },
-            {
-                url: 'turn:numb.viagenie.ca',
+            { iceTransportPolicy:"relay",
+              urls: 'stun:stun1.l.google.com:19302' },
+            {   iceTransportPolicy:"relay",
+                urls: 'turn:numb.viagenie.ca',
                 credential: 'muazkh',
                 username: 'webrtc@live.com'
             }
