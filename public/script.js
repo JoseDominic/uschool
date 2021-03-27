@@ -9,6 +9,17 @@ const myPeer = new Peer(undefined, {
   host: '/',
   path:'peerjs',
   port: '443',
+  debug: 3,
+  config: {
+      'iceServers': [
+          { url: 'stun:stun1.l.google.com:19302' },
+          {
+              url: 'turn:numb.viagenie.ca',
+              credential: 'muazkh',
+              username: 'webrtc@live.com'
+          }
+      ]
+  }
 })
 
 // config: {‘iceServers’: [
@@ -200,7 +211,18 @@ const shareScreen = async () => {
   const myPeer = new Peer(undefined, {
     path: '/peerjs',
     host: '/',
-    port: '443'
+    port: '443',
+    debug: 3,
+    config: {
+        'iceServers': [
+            { url: 'stun:stun1.l.google.com:19302' },
+            {
+                url: 'turn:numb.viagenie.ca',
+                credential: 'muazkh',
+                username: 'webrtc@live.com'
+            }
+        ]
+    }
   })
   
   const myVideo2 = document.createElement('video')
