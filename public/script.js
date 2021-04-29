@@ -203,15 +203,16 @@ const shareScreen = async () => {
     port: '443',
     debug: 3,
     config: {
-        'iceServers': [
-            { iceTransportPolicy:"relay",
-              urls: 'stun:stun1.l.google.com:19302' },
-            {   iceTransportPolicy:"relay",
-                urls: 'turn:numb.viagenie.ca',
-                credential: 'muazkh',
-                username: 'webrtc@live.com'
-            }
-        ]
+      'iceServers': [
+          { iceTransportPolicy:"relay",
+            urls: 'stun:stun1.l.google.com:19302' },
+          {
+              iceTransportPolicy:"relay",
+              urls: 'turn:20.198.6.107:3478?transport=tcp',
+              credential: '1234',
+              username: 'caleum'
+          }
+      ]
     }
   })
   
