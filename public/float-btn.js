@@ -64,19 +64,5 @@ if(userRole == 'student'){
   start();
   setTimeout(() => {
 
-    // var newUser = {
-    //   $set:{
-    //     attendance:attendance
-    //   }
-    // }
-    // //update the attendance of the current user
-    // User.updateOne({name:userName},newUser, (err) => {
-    //   if(err){
-    //     console.log(err);
-    //   }
-    //   else{
-    //     console.log('attendance updated');
-    //   }
-    // });
   }, 20000)
 }

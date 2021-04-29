@@ -11,18 +11,20 @@ const myPeer = new Peer(undefined, {
   port: '443',
   debug: 3,
   config: {
-      'iceServers': [
-          { iceTransportPolicy:"relay",
-            urls: 'stun:stun1.l.google.com:19302' },
-          {
-              iceTransportPolicy:"relay",
-              urls: 'turn:numb.viagenie.ca',
-              credential: 'muazkh',
-              username: 'webrtc@live.com'
-          }
-      ]
+    'iceServers': [
+        { iceTransportPolicy:"relay",
+          urls: 'stun:stun1.l.google.com:19302' },
+        {
+            iceTransportPolicy:"relay",
+            urls: 'turn:20.198.6.107:3478?transport=tcp',
+            credential: '1234',
+            username: 'caleum'
+        }
+    ]
   }
 })
+
+
 
 // config: {‘iceServers’: [
 //   { url: ‘stun:[your stun id]:[port]’ },
@@ -102,21 +104,6 @@ function addVideoStream(video, stream) {
   videoGrid.append(video)
 }
 
-//function to replace video stream
-// function replaceStream(peerConnection, mediaStream) {
-//   for(sender of peerConnection.getSenders()){
-//       if(sender.track.kind == "audio") {
-//           if(mediaStream.getAudioTracks().length > 0){
-//               sender.replaceTrack(mediaStream.getAudioTracks()[0]);
-//           }
-//       }
-//       if(sender.track.kind == "video") {
-//           if(mediaStream.getVideoTracks().length > 0){
-//               sender.replaceTrack(mediaStream.getVideoTracks()[0]);
-//           }
-//       }
-//   }
-// }
 
 
 //internet connectivity monitoring
