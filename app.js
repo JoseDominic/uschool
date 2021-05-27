@@ -91,8 +91,12 @@ io.on('connection', socket => {
     });
 
     //ppt sharing
-    socket.on('join-sharing',(session_id) => {
+    socket.on('join-sharing',(session_id) => {   
       socket.join(session_id);
+      socket.to(session_id).broadcast.emit('new-student-joined');
+      socket.on('slide-no',(slideNo) => {
+        io.to(session_id).emit('updateSlide',slideNo);
+      })
       //change slide
       socket.on('change-slide',(direction) => {
         io.to(session_id).emit('nextSlide',direction);
