@@ -21,6 +21,7 @@ socket.on('new-student-joined',() => {
 
 //slide update
 socket.on('updateSlide',(slideNoNew) => {
+    console.log(slideNoNew);
     if(userRole=='student') {
         console.log(`received update event`)
         var pptBox = document.getElementById("pptBox");
