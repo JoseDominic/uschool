@@ -5,7 +5,7 @@ if(userRole=='teacher'){
     document.getElementById('controlBtns').setAttribute("style","display:block;")
 }
 const socket = io('/')
-var slideNo;
+var slideNo='0';
 const nxtBtn = document.getElementById('nxtBtn');
 const prevBtn = document.getElementById('prevBtn');
 console.log(socket);
