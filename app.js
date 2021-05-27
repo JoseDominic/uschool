@@ -68,6 +68,7 @@ app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use('/class',require('./routes/class'));
 app.use('/exam',require('./routes/exam'));
+app.use('/ppt',require('./routes/ppt'));
 // app.use('/email',require('./routes/email'));
 
 
@@ -83,9 +84,18 @@ io.on('connection', socket => {
         console.log(userName);
         io.to(roomId).emit('createMessage',{message,userName})
     }); 
-  
+
       socket.on('disconnect', () => {
         socket.to(roomId).broadcast.emit('user-disconnected', userId)
+      })
+    });
+
+    //ppt sharing
+    socket.on('join-sharing',(session_id) => {
+      socket.join(session_id);
+      //change slide
+      socket.on('change-slide',(direction) => {
+        io.to(session_id).emit('nextSlide',direction);
       })
     })
 })
