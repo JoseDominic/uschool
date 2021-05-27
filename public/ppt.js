@@ -26,14 +26,16 @@ socket.on('nextSlide',(direction) => {
     var slideNo = pptBox.getAttribute("src");
     slideNo = slideNo.slice(16,);
     slideNo = slideNo.substring(0,slideNo.length-4);
-    console.log(slideNo);
+    slideNo = Number(slideNo)
+    //console.log(slideNo);
     if(direction=='next'){
         //increase slide number
-        slideNo = ((slideNo%4)+1);
+        slideNo = (slideNo+1)%4;
+        console.log(`Right ${slideNo}`);
     }
     else{
         //decrease slide number
-        slideNo = ((slideNo%4)+1);
+        slideNo = (((slideNo-1)%4)+4)%4;
     }
     console.log(slideNo);
     var newSrc = `/uploads/slides/${slideNo}.jpg`.toString()
