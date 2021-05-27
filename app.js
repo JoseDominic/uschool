@@ -93,6 +93,7 @@ io.on('connection', socket => {
     //ppt sharing
     socket.on('join-sharing',(session_id) => {   
       socket.join(session_id);
+      console.log('new user joined');
       socket.to(session_id).broadcast.emit('new-student-joined');
       socket.on('slide-no',(slideNo) => {
         io.to(session_id).emit('updateSlide',slideNo);

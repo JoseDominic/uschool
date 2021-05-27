@@ -14,6 +14,7 @@ socket.emit('join-sharing',session_id);
 
 //on new connection
 socket.on('new-student-joined',() => {
+    //console.log('new-user-joined');
     if (userRole=='teacher'){
         socket.emit('slide-no',slideNo);
     }
@@ -23,7 +24,7 @@ socket.on('new-student-joined',() => {
 socket.on('updateSlide',(slideNoNew) => {
     console.log(slideNoNew);
     if(userRole=='student') {
-        console.log(`received update event`)
+        console.log(`received update event`);
         var pptBox = document.getElementById("pptBox");
         var newSrc = `/uploads/slides/${slideNoNew}.jpg`.toString()
         pptBox.setAttribute("src",newSrc);
