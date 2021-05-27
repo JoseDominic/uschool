@@ -1,5 +1,5 @@
-const socket = io('https://video-sock-server.herokuapp.com/')
-//const socket = io('/')
+//const socket = io('https://video-sock-server.herokuapp.com/')
+const socket = io('/')
 console.log(socket);
 const roomIdView = document.getElementById('roomid')
 roomIdView.innerHTML = ROOM_ID
